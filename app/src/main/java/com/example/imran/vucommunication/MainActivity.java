@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity
     private TabAccessorAdapter myTabAccessorAdapter;
 
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
 
 
     @Override
@@ -71,26 +70,16 @@ public class MainActivity extends AppCompatActivity
         myTabLayout.setupWithViewPager(myViewPager);
 
         mAuth= FirebaseAuth.getInstance();
-        currentUser= mAuth.getCurrentUser();
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if(currentUser == null)
-        {
-            SendUserToLoginActivity();
-        }
-    }
-
-    private void SendUserToLoginActivity()
+    private void sendUserToLoginActivity()
     {
-        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent loginIntent = new Intent(MainActivity.this, MainActivity.class);
         startActivity(loginIntent);
 
     }
+
 
 
 
@@ -132,23 +121,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        super.onOptionsItemSelected(item);
+
+        if(item.getItemId() == R.id.main_logout_option){
+
+            mAuth.signOut();
+            sendUserToLoginActivity();
         }
+        if(item.getItemId() == R.id.main_settings_option){
 
-        return super.onOptionsItemSelected(item);
+        }
+        if(item.getItemId() == R.id.main_find_friends_option){
+
+        }
+        return true;
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
