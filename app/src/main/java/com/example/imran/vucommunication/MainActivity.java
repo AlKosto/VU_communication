@@ -1,5 +1,6 @@
 package com.example.imran.vucommunication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,12 +19,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private ViewPager myViewPager;
     private TabLayout myTabLayout;
+    private TabAccessorAdapter myTabAccessorAdapter;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +62,62 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
+        myTabAccessorAdapter = new TabAccessorAdapter(getSupportFragmentManager());
+        myViewPager.setAdapter(myTabAccessorAdapter);
+
+
+        myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        myTabLayout.setupWithViewPager(myViewPager);
+
+        mAuth= FirebaseAuth.getInstance();
+        currentUser= mAuth.getCurrentUser();
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(currentUser == null)
+        {
+            SendUserToLoginActivity();
+        }
+    }
+
+    private void SendUserToLoginActivity()
+    {
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onBackPressed() {
