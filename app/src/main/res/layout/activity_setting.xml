@@ -103,47 +103,49 @@
                 android:layout_marginTop="10dp"
                 android:drawableLeft="@drawable/sessin" />
 
-
-            <EditText
-                android:id="@+id/set_user_semester"
+            <LinearLayout
+                android:id="@+id/sem_sec"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/set_student_session"
-                android:inputType="textMultiLine"
-                android:hint="Semester.."
-                android:textAlignment="center"
-                android:drawableStart="@drawable/semester"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:background="@drawable/inputs"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="200dp"
-                android:padding="6dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/semester"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="200dp" />
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/set_user_batch"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Batch.."
+                    android:textAlignment="center"
+                    android:drawableStart="@drawable/semester"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:background="@drawable/inputs"
+                    android:layout_marginStart="15dp"
+                    android:padding="6dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/semester"
+                    android:layout_marginLeft="15dp" />
 
-            <EditText
-                android:id="@+id/set_user_Section"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/set_student_session"
-                android:inputType="textMultiLine"
-                android:hint="Section.."
-                android:textAlignment="center"
-                android:drawableStart="@drawable/section"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:background="@drawable/inputs"
-                android:layout_marginStart="200dp"
-                android:layout_marginEnd="15dp"
-                android:textAllCaps="true"
-                android:padding="6dp"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@drawable/section"
-                android:layout_marginLeft="200dp"
-                android:layout_marginRight="15dp" />
+                <EditText
+                    android:id="@+id/set_user_Section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/inputs"
+                    android:drawableStart="@drawable/section"
+                    android:drawableLeft="@drawable/section"
+                    android:hint="Section.."
+                    android:padding="6dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="10dp" />
+
+
+            </LinearLayout>
+
 
 
 
@@ -151,7 +153,7 @@
             <Spinner
             android:id="@+id/spinner_dept_name"
              android:layout_width="match_parent"
-            android:layout_below="@+id/set_user_semester"
+            android:layout_below="@+id/sem_sec"
              android:layout_height="wrap_content"
             android:padding="15dp"
             android:textAlignment="center"
@@ -192,7 +194,6 @@
         android:layout_marginEnd="15dp"
         android:padding="6dp" android:layout_marginTop="10dp"
         android:textAllCaps="false"
-
          />
         </RelativeLayout>
 </ScrollView>

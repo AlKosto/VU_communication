@@ -10,6 +10,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="dept_names">
+        <item>Select Your Department</item>
         <item>Computer science and Engineering</item>
         <item>Electrical and Electronic Engineering</item>
         <item>Economics</item>
@@ -26,60 +27,79 @@
     </string-array>
 
 
+    <string-array name="program_null">
+        <item>Select Your Program</item>
+    </string-array>
+
     <string-array name="program_names_cse">
+        <item>Select Your Program</item>
         <item>BSC in CSE</item>
     </string-array>
 
     <string-array name="program_name_business">
+        <item>Select Your Program</item>
         <item>BBA</item>
         <item>MBA</item>
     </string-array>
     
     <string-array name="program_name_eee">
+        <item>Select Your Program</item>
         <item>B.Sc. in EEE</item>
     </string-array>
 
     <string-array name="program_name_english">
+        <item>Select Your Program</item>
         <item>BA Honors in English</item>
         <item>MA in English</item>
     </string-array>
     
     <string-array name="program_name_law">
+        <item>Select Your Program</item>
         <item>LLB Honors</item>
         <item>LLM</item>
     </string-array>
 
     <string-array name="program_in_economics">
+        <item>Select Your Program</item>
         <item>BSS Honors in Economics</item>
     </string-array>
     
     <string-array name="program_in_Journalism">
+        <item>Select Your Program</item>
+        <item>Select Your Program</item>
         <item>BSS Honors in JCMS</item>
     </string-array>
     
     <string-array name="program_in_Pharmacy">
+        <item>Select Your Program</item>
+        <item>Select Your Program</item>
         <item>B. Pharm Honors</item>
     </string-array>
     
     <string-array name="program_in_public_health">
+        <item>Select Your Program</item>
         <item>Master in Public Health</item>
     </string-array>
     
     <string-array name="program_in_Sociology">
+        <item>Select Your Program</item>
         <item>BSS Honors in Sociology</item>
         <item>MSS in Sociology</item>
     </string-array>
     
     <string-array name="program_in_Political_Science">
+        <item>Select Your Program</item>
         <item>BSS Honors in Political Science</item>
         <item>MSS in Political Science</item>
     </string-array>
     
     <string-array name="program_in_Applied_Statistics">
+        <item>Select Your Program</item>
         <item>B.Sc. Honors in Applied Statistics</item>
     </string-array>
     
     <string-array name="program_in_Islamic_History">
+        <item>Select Your Program</item>
         <item>BA Honors in Islamic HIistory</item>
     </string-array>
 
