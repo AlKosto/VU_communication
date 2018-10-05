@@ -138,6 +138,13 @@ public class MainActivity extends AppCompatActivity
         startActivity(settingIntent);
         finish();
     }
+    private void sendUserToProfileActivity() {
+        Intent settingIntent = new Intent(MainActivity.this, ProfileActivity.class);
+        settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(settingIntent);
+        finish();
+    }
+
 
 
 
@@ -183,6 +190,10 @@ public class MainActivity extends AppCompatActivity
         }
         if(item.getItemId() == R.id.main_settings_option){
             sendUserToSettngActivity();
+
+        }
+        if(item.getItemId() == R.id.main_profile_option){
+            sendUserToProfileActivity();
 
         }
         if(item.getItemId() == R.id.main_find_friends_option){

@@ -41,7 +41,7 @@
         <item>BBA</item>
         <item>MBA</item>
     </string-array>
-    
+
     <string-array name="program_name_eee">
         <item>Select Your Program</item>
         <item>B.Sc. in EEE</item>
@@ -52,7 +52,7 @@
         <item>BA Honors in English</item>
         <item>MA in English</item>
     </string-array>
-    
+
     <string-array name="program_name_law">
         <item>Select Your Program</item>
         <item>LLB Honors</item>
@@ -63,41 +63,41 @@
         <item>Select Your Program</item>
         <item>BSS Honors in Economics</item>
     </string-array>
-    
+
     <string-array name="program_in_Journalism">
         <item>Select Your Program</item>
         <item>Select Your Program</item>
         <item>BSS Honors in JCMS</item>
     </string-array>
-    
+
     <string-array name="program_in_Pharmacy">
         <item>Select Your Program</item>
         <item>Select Your Program</item>
         <item>B. Pharm Honors</item>
     </string-array>
-    
+
     <string-array name="program_in_public_health">
         <item>Select Your Program</item>
         <item>Master in Public Health</item>
     </string-array>
-    
+
     <string-array name="program_in_Sociology">
         <item>Select Your Program</item>
         <item>BSS Honors in Sociology</item>
         <item>MSS in Sociology</item>
     </string-array>
-    
+
     <string-array name="program_in_Political_Science">
         <item>Select Your Program</item>
         <item>BSS Honors in Political Science</item>
         <item>MSS in Political Science</item>
     </string-array>
-    
+
     <string-array name="program_in_Applied_Statistics">
         <item>Select Your Program</item>
         <item>B.Sc. Honors in Applied Statistics</item>
     </string-array>
-    
+
     <string-array name="program_in_Islamic_History">
         <item>Select Your Program</item>
         <item>BA Honors in Islamic HIistory</item>

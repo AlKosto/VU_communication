@@ -6,7 +6,10 @@
         android:title="Find Friends"
         app:showAsAction="never"
         />
-
+    <item
+        android:id="@+id/main_profile_option"
+        android:title="View Profile"
+        app:showAsAction="never" />
     <item
         android:id="@+id/main_settings_option"
         android:title="@string/action_settings"
