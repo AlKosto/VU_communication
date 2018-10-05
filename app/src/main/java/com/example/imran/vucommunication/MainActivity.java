@@ -80,19 +80,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private void sendUserToSettngActivity(){
+        Intent loginIntent = new Intent(MainActivity.this, SettingActivity.class);
+        startActivity(loginIntent);
+    }
 
 
 
@@ -137,6 +128,7 @@ public class MainActivity extends AppCompatActivity
             sendUserToLoginActivity();
         }
         if(item.getItemId() == R.id.main_settings_option){
+            sendUserToSettngActivity();
 
         }
         if(item.getItemId() == R.id.main_find_friends_option){

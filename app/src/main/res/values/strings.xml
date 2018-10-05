@@ -9,4 +9,78 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="dept_names">
+        <item>Computer science and Engineering</item>
+        <item>Electrical and Electronic Engineering</item>
+        <item>Economics</item>
+        <item>English</item>
+        <item>Business Administration</item>
+        <item>Journalism, Communication and Media Studies</item>
+        <item>Law and Human Rights</item>
+        <item>Pharmacy</item>
+        <item>Public Health</item>
+        <item>Sociology</item>
+        <item>Political Science</item>
+        <item>Applied Statistics</item>
+        <item>Islamic History</item>
+    </string-array>
+
+
+    <string-array name="program_names_cse">
+        <item>BSC in CSE</item>
+    </string-array>
+
+    <string-array name="program_name_business">
+        <item>BBA</item>
+        <item>MBA</item>
+    </string-array>
+    
+    <string-array name="program_name_eee">
+        <item>B.Sc. in EEE</item>
+    </string-array>
+
+    <string-array name="program_name_english">
+        <item>BA Honors in English</item>
+        <item>MA in English</item>
+    </string-array>
+    
+    <string-array name="program_name_law">
+        <item>LLB Honors</item>
+        <item>LLM</item>
+    </string-array>
+
+    <string-array name="program_in_economics">
+        <item>BSS Honors in Economics</item>
+    </string-array>
+    
+    <string-array name="program_in_Journalism">
+        <item>BSS Honors in JCMS</item>
+    </string-array>
+    
+    <string-array name="program_in_Pharmacy">
+        <item>B. Pharm Honors</item>
+    </string-array>
+    
+    <string-array name="program_in_public_health">
+        <item>Master in Public Health</item>
+    </string-array>
+    
+    <string-array name="program_in_Sociology">
+        <item>BSS Honors in Sociology</item>
+        <item>MSS in Sociology</item>
+    </string-array>
+    
+    <string-array name="program_in_Political_Science">
+        <item>BSS Honors in Political Science</item>
+        <item>MSS in Political Science</item>
+    </string-array>
+    
+    <string-array name="program_in_Applied_Statistics">
+        <item>B.Sc. Honors in Applied Statistics</item>
+    </string-array>
+    
+    <string-array name="program_in_Islamic_History">
+        <item>BA Honors in Islamic HIistory</item>
+    </string-array>
+
 </resources>
