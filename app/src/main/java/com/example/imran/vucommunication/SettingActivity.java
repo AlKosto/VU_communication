@@ -1,8 +1,10 @@
 package com.example.imran.vucommunication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,6 +24,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.HashMap;
 
@@ -38,6 +45,8 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
     private String currentUserID;
     private FirebaseAuth mAuth;
     private DatabaseReference RootRef;
+    private static final int GalleryPick =1;
+    private StorageReference UserProfileImageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,7 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        UserProfileImageRef = FirebaseStorage.getInstance().getReference("Profile Images");
 
         UpdateAccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +73,19 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
         });
 
 
+        userProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, GalleryPick);
+            }
+        });
+
+
+
+        RetriveUsersInfo();
 
     }
 
@@ -88,6 +111,46 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
         UpdateAccountSetting = (Button) findViewById(R.id.update_setting_button);
 
         userProfileImage = (CircleImageView) findViewById(R.id.set_profile_image);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if(requestCode == GalleryPick && resultCode == RESULT_OK  && data!=null){
+            Uri ImageUri = data.getData();
+
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(this);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if(resultCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+
+                StorageReference filePath = UserProfileImageRef.child(currentUserID +".jpg");
+                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                        if(task.isSuccessful()){
+                            Toast.makeText(SettingActivity.this, "Profile Image Upload Successfully", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            String errorM = task.getException().toString();
+                            Toast.makeText(SettingActivity.this, "Error: "+ errorM, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+        }
     }
 
     private void UpdateSettings() {
@@ -163,6 +226,66 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
 
 
 
+    private void RetriveUsersInfo(){
+        RootRef.child("Users").child(currentUserID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if((dataSnapshot.exists()) && (dataSnapshot.hasChild("name")  && (dataSnapshot.hasChild("image"))&&
+                        (dataSnapshot.hasChild("deptName"))&& (dataSnapshot.hasChild("programName"))&&
+                        (dataSnapshot.hasChild("studentBatch"))&& (dataSnapshot.hasChild("studentSession"))&&
+                        (dataSnapshot.hasChild("student_section"))&& (dataSnapshot.hasChild("studentid"))) ){
+
+                    String retriveUserName = dataSnapshot.child("name").getValue().toString();
+                    String retriveStatus = dataSnapshot.child("status").getValue().toString();
+                    String retriveBatch = dataSnapshot.child("studentBatch").getValue().toString();
+                    String retriveSession = dataSnapshot.child("studentSession").getValue().toString();
+                    String retriveSection = dataSnapshot.child("student_section").getValue().toString();
+                    String retriveSID = dataSnapshot.child("studentid").getValue().toString();
+                    String retrivePrfileImage=dataSnapshot.child("image").getValue().toString();
+
+                    UserName.setText(retriveUserName);
+                    UserStatus.setText(retriveStatus);
+                    StudentId.setText(retriveSID);
+                    StudentSection.setText(retriveSession);
+                    StudentBatch.setText(retriveBatch);
+                    StudentSession.setText(retriveSection);
+
+
+
+                }
+                else if((dataSnapshot.exists()) && (dataSnapshot.hasChild("name"))&&
+                        (dataSnapshot.hasChild("deptName"))&& (dataSnapshot.hasChild("programName"))&&
+                        (dataSnapshot.hasChild("studentBatch"))&& (dataSnapshot.hasChild("studentSession"))&&
+                        (dataSnapshot.hasChild("student_section"))&& (dataSnapshot.hasChild("studentid"))){
+
+
+                    String retriveUserName = dataSnapshot.child("name").getValue().toString();
+                    String retriveStatus = dataSnapshot.child("status").getValue().toString();
+                    String retriveBatch = dataSnapshot.child("studentBatch").getValue().toString();
+                    String retriveSession = dataSnapshot.child("studentSession").getValue().toString();
+                    String retriveSection = dataSnapshot.child("student_section").getValue().toString();
+                    String retriveSID = dataSnapshot.child("studentid").getValue().toString();
+
+                    UserName.setText(retriveUserName);
+                    UserStatus.setText(retriveStatus);
+                    StudentId.setText(retriveSID);
+                    StudentSection.setText(retriveSession);
+                    StudentBatch.setText(retriveBatch);
+                    StudentSession.setText(retriveSection);
+
+                }
+                else{
+                    Toast.makeText(SettingActivity.this, "Please update your profile info..", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 
