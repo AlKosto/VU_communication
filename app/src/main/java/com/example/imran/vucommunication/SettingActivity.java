@@ -1,5 +1,6 @@
 package com.example.imran.vucommunication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -47,6 +49,7 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
     private DatabaseReference RootRef;
     private static final int GalleryPick =1;
     private StorageReference UserProfileImageRef;
+    private ProgressDialog lodingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
         currentUserID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         UserProfileImageRef = FirebaseStorage.getInstance().getReference("Profile Images");
+        lodingBar =new ProgressDialog(this);
 
         UpdateAccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,19 +136,55 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             if(resultCode == RESULT_OK){
+
+                lodingBar.setTitle("Set Profile Image");
+                lodingBar.setMessage("Please wait, your profile image is uploading...");
+                lodingBar.setCanceledOnTouchOutside(false);
+                lodingBar.show();
+
                 Uri resultUri = result.getUri();
 
-                StorageReference filePath = UserProfileImageRef.child(currentUserID +".jpg");
+
+
+                final StorageReference filePath = UserProfileImageRef.child(currentUserID +".jpg");
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
                         if(task.isSuccessful()){
                             Toast.makeText(SettingActivity.this, "Profile Image Upload Successfully", Toast.LENGTH_SHORT).show();
+
+
+                            final String downloadUrl= task.getResult().getDownloadUrl().toString();
+
+                            RootRef.child("Users").child(currentUserID).child("image")
+                                    .setValue(downloadUrl)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(SettingActivity.this, "Image saved successfully", Toast.LENGTH_SHORT).show();
+                                                lodingBar.dismiss();
+                                            }
+                                            else {
+
+                                                String message= task.getException().toString();
+                                                Toast.makeText(SettingActivity.this, "Error: " +message, Toast.LENGTH_SHORT).show();
+                                                lodingBar.dismiss();
+
+                                            }
+
+                                        }
+                                    });
+
+
+
                         }
                         else {
                             String errorM = task.getException().toString();
                             Toast.makeText(SettingActivity.this, "Error: "+ errorM, Toast.LENGTH_SHORT).show();
+                            lodingBar.dismiss();
                         }
                     }
                 });
@@ -249,6 +289,7 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
                     StudentSection.setText(retriveSession);
                     StudentBatch.setText(retriveBatch);
                     StudentSession.setText(retriveSection);
+                    Picasso.get().load(retrivePrfileImage).into(userProfileImage);
 
 
 

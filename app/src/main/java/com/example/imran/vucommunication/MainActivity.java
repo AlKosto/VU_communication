@@ -143,11 +143,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(settingIntent);
         finish();
     }
-    private void sendUserToProfileActivity() {
-        Intent settingIntent = new Intent(MainActivity.this, ProfileActivity.class);
-        settingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(settingIntent);
-        finish();
+
+    private void sendUserToFindFriensActivity() {
+        Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
+        startActivity(FindFriendsIntent);
     }
 
 
@@ -202,15 +201,17 @@ public class MainActivity extends AppCompatActivity
 
         }
         if(item.getItemId() == R.id.main_profile_option){
-            sendUserToProfileActivity();
 
         }
         if(item.getItemId() == R.id.main_find_friends_option){
+            sendUserToFindFriensActivity();
 
         }
         return true;
 
     }
+
+
 
     private void RequestNewGroup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialog);
