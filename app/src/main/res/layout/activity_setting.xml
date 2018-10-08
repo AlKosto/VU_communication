@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
 
+    <include
+        android:id="@+id/setting_toolbar"
+        layout="@layout/app_bar_layout">
+    </include>
+
     <ScrollView
+        android:layout_marginTop="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
@@ -14,6 +20,7 @@
         android:layout_alignParentLeft="true">
 
         <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
