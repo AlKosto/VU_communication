@@ -8,7 +8,6 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="dept_names">
         <item>Select Your Department</item>
         <item>Computer science and Engineering</item>

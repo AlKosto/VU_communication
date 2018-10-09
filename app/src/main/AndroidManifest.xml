@@ -25,16 +25,19 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".SettingActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".SettingActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".GroupChatActivity" />
         <activity android:name=".PhoneLoginActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".FindFriendsActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".FindFriendsActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ChatActivity"></activity>
     </application>
 
 </manifest>

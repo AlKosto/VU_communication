@@ -108,6 +108,7 @@
              android:layout_height="wrap_content">
 
              <TextView
+                 android:id="@+id/program_indicator"
                  android:text="Program: "
                  android:textSize="13dp"
                  android:layout_width="wrap_content"
