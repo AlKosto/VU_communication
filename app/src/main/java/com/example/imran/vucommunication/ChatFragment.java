@@ -37,6 +37,7 @@ public class ChatFragment extends Fragment {
     private FirebaseAuth mAuth;
     private String currentUserID;
 
+
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -77,6 +78,7 @@ public class ChatFragment extends Fragment {
                     protected void onBindViewHolder(@NonNull final ChatViewHolder holder, int position, @NonNull Contacts model) {
 
                         final String usersIDs = getRef(position).getKey();
+                        final String[] userImage = {"default_image"};
 
                         UsersRef.child(usersIDs).addValueEventListener(new ValueEventListener() {
                             @Override
@@ -84,9 +86,9 @@ public class ChatFragment extends Fragment {
                                 if(dataSnapshot.exists()){
                                     if(dataSnapshot.hasChild("image"))
                                     {
-                                        final String userImage= dataSnapshot.child("image").getValue().toString();
+                                        userImage[0] = dataSnapshot.child("image").getValue().toString();
 
-                                        Picasso.get().load(userImage).into(holder.profileImage);
+                                        Picasso.get().load(userImage[0]).into(holder.profileImage);
                                     }
 
                                     final String profieStatus= dataSnapshot.child("status").getValue().toString();
@@ -112,6 +114,7 @@ public class ChatFragment extends Fragment {
                                             Intent chatIntent = new Intent(getContext() ,ChatActivity.class);
                                             chatIntent.putExtra("visit_user_id", usersIDs);
                                             chatIntent.putExtra("visit_user_name", pofileName);
+                                            chatIntent.putExtra("visit_image", userImage[0]);
                                             startActivity(chatIntent);
                                         }
                                     });
