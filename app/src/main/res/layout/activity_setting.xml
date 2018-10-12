@@ -11,6 +11,8 @@
         layout="@layout/app_bar_layout">
     </include>
 
+
+
     <ScrollView
         android:layout_marginTop="48dp"
         android:layout_width="match_parent"
@@ -24,13 +26,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/vu2"/>
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/set_profile_image"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="85dp"
         android:src="@drawable/profile"
         app:civ_border_width="5dp"
         app:civ_border_color="@color/colorPrimary"/>
@@ -135,7 +141,7 @@
                 <EditText
                     android:id="@+id/set_user_Section"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginStart="10dp"

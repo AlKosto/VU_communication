@@ -2,6 +2,7 @@ package com.example.imran.vucommunication;
 
 
 import android.content.ContentUris;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -236,7 +237,18 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
         else {
-            SendMessaheRequestButton.setVisibility(View.INVISIBLE);
+            SendMessaheRequestButton.setVisibility(View.VISIBLE);
+            SendMessaheRequestButton.setText("Go Setting To Edit");
+            SendMessaheRequestButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                        Intent settingIntent = new Intent(ProfileActivity.this, SettingActivity.class);
+                        startActivity(settingIntent);
+
+                }
+            });
+
         }
     }
 

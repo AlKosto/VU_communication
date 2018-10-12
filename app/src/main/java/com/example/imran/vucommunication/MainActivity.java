@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference RootRef;
+    private String currentUserId;
 
 
     @Override
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity
 
         mAuth= FirebaseAuth.getInstance();
         currentUser =mAuth.getCurrentUser();
+        currentUserId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -140,7 +142,6 @@ public class MainActivity extends AppCompatActivity
     private void sendUserToSettngActivity(){
         Intent settingIntent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(settingIntent);
-        finish();
     }
 
     private void sendUserToFindFriensActivity() {
@@ -200,6 +201,9 @@ public class MainActivity extends AppCompatActivity
 
         }
         if(item.getItemId() == R.id.main_profile_option){
+            Intent profileIntent = new Intent( MainActivity.this, ProfileActivity.class);
+            profileIntent.putExtra("visit_user_id", currentUserId);
+            startActivity(profileIntent);
 
         }
         if(item.getItemId() == R.id.main_find_friends_option){

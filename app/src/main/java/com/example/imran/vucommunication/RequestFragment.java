@@ -221,7 +221,119 @@ public class RequestFragment extends Fragment {
 
                                             }
                                         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    }else if(type.equals("sent")){
+                                        UserRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if(dataSnapshot.hasChild("image")){
+
+                                                    final String requestProfileImage = dataSnapshot.child("image").getValue().toString();
+
+                                                    Picasso.get().load(requestProfileImage).into(holder.prfileImage);
+                                                }
+
+
+                                                final String profieStatus= dataSnapshot.child("status").getValue().toString();
+                                                final String pofileName= dataSnapshot.child("name").getValue().toString();
+                                                final String UStudentId= dataSnapshot.child("studentid").getValue().toString();
+                                                final String UserBatch= dataSnapshot.child("studentBatch").getValue().toString();
+                                                final String UStudentProgram = dataSnapshot.child("programName").getValue().toString();
+
+
+
+                                                holder.StudentProgram.setText(UStudentProgram);
+                                                holder.userStudentBatch.setText(UserBatch);
+                                                holder.userSId.setText(UStudentId);
+                                                holder.userName.setText(pofileName);
+                                                holder.userStatus.setText(profieStatus);
+                                                holder.AcceptButton.setVisibility(View.INVISIBLE);
+
+
+                                                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        CharSequence option[] = new CharSequence[]{
+                                                                "Cancel"
+                                                        };
+
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                        builder.setTitle("Chat Request to "+ pofileName);
+
+                                                        builder.setItems(option, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                if(which ==0){
+                                                                    ContactsRef.child(list_user_id).child(currentUserId).child("Contact")
+                                                                            .setValue("saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if(task.isSuccessful()){
+                                                                                ChatRequestRef.child(currentUserId).child(list_user_id)
+                                                                                        .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                        if(task.isSuccessful()){
+                                                                                            ChatRequestRef.child(list_user_id).child(currentUserId)
+                                                                                                    .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                @Override
+                                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                                    if(task.isSuccessful()){
+                                                                                                        Toast.makeText(getContext(), "Contact Deleted", Toast.LENGTH_SHORT).show();
+
+                                                                                                    }
+                                                                                                }
+                                                                                            });
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                            }
+                                                        });
+                                                        builder.show();
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 }
                             }
 
