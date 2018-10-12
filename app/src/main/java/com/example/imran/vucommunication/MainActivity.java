@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity
         currentUser =mAuth.getCurrentUser();
         currentUserId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        RootRef.keepSynced(true);
     }
 
     @Override

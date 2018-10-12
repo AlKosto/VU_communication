@@ -51,7 +51,10 @@ public class GroupChatActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        UsersRef.keepSynced(true);
+
         GroupNameRef =FirebaseDatabase.getInstance().getReference().child("Groups").child(currentGrooupName);
+        GroupNameRef.keepSynced(true);
 
 
 
@@ -149,6 +152,7 @@ public class GroupChatActivity extends AppCompatActivity {
             GroupNameRef.updateChildren(groupMessageKey);
 
             GroupMessageKeyRef = GroupNameRef.child(messageKey);
+            GroupMessageKeyRef.keepSynced(true);
 
             HashMap<String, Object> messageInforMap = new HashMap<>();
             messageInforMap.put("name" ,currentUserName);

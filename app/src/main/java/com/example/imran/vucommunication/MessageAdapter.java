@@ -65,6 +65,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String fromMessageType = messages.getType();
 
         userRef =FirebaseDatabase.getInstance().getReference().child("Users").child(fromUserId);
+        userRef.keepSynced(true);
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override

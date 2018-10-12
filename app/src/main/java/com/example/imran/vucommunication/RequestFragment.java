@@ -59,8 +59,14 @@ public class RequestFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        UserRef.keepSynced(true);
+
         ChatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat_Request");
+        ChatRequestRef.keepSynced(true);
+
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
+        ContactsRef.keepSynced(true);
+
         myRequestsList =(RecyclerView) RequestFragmentView.findViewById(R.id.chat_request_list);
         myRequestsList.setLayoutManager(new LinearLayoutManager(getContext()));
 

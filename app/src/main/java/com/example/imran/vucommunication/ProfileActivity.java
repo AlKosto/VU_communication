@@ -49,9 +49,16 @@ public class ProfileActivity extends AppCompatActivity {
         receivedUserID = getIntent().getExtras().get("visit_user_id").toString();
         senderUserID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        RootRef.keepSynced(true);
+
         ChatRequetRef = FirebaseDatabase.getInstance().getReference().child("Chat_Request");
+        ChatRequetRef.keepSynced(true);
+
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
+        ContactsRef.keepSynced(true);
+
         NotificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
+        NotificationRef.keepSynced(true);
 
         Current_State = "new";
 

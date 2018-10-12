@@ -40,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         UserRef = FirebaseDatabase.getInstance().getReference("Users") ;
+        UserRef.keepSynced(true);
+
         currentUser= mAuth.getCurrentUser();
 
         InitializeFields();

@@ -55,7 +55,9 @@ public class ContactsFragment extends Fragment {
         currentUserID= mAuth.getCurrentUser().getUid();
 
         ContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
+        ContactsRef.keepSynced(true);
         UserRef =FirebaseDatabase.getInstance().getReference().child("Users");
+        UserRef.keepSynced(true);
 
         return ContactsView;
     }

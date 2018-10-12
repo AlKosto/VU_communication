@@ -61,6 +61,7 @@ public class ChatActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         messageSenderID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        RootRef.keepSynced(true);
 
 
         messageReceiverID = getIntent().getExtras().get("visit_user_id").toString();

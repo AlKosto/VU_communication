@@ -68,6 +68,8 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
+        RootRef.keepSynced(true);
+
         UserProfileImageRef = FirebaseStorage.getInstance().getReference("Profile Images");
         lodingBar =new ProgressDialog(this);
 

@@ -52,7 +52,9 @@ public class ChatFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         ChatsRef = FirebaseDatabase.getInstance().getReference().child("Contacts").child(currentUserID);
+        ChatsRef.keepSynced(true);
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        UsersRef.keepSynced(true);
 
         chatList =(RecyclerView) PrivetChatView.findViewById(R.id.chat_list);
         chatList.setLayoutManager(new LinearLayoutManager(getContext()));
