@@ -183,14 +183,15 @@
             <LinearLayout
 
                 android:id="@+id/sem_sec"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/session_layout"
 
-                android:orientation="horizontal"
-                android:layout_marginEnd="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp">
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="15dp"
+                android:orientation="horizontal">
 
 
                 <LinearLayout
@@ -243,17 +244,18 @@
                         android:paddingTop="6dp"
                         android:src="@drawable/section" />
 
-
                     <TextView
                         android:id="@+id/set_user_Section"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="User Bath"
+                        android:text="B"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="20dp"
                         android:textStyle="bold" />
+
+
 
 
                 </LinearLayout>

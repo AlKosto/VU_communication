@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WebPages">
+
+
+    <include
+        android:id="@+id/webToolBar"
+        layout="@layout/app_bar_layout"/>
+
+    <WebView
+        android:id="@+id/vuWebViw"
+        android:layout_below="@id/webToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/vuLinearLayout">
+    </WebView>
+
+    <LinearLayout
+        android:id="@+id/vuLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/vuProgressbar"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1" />
+
+        <ImageView
+            android:id="@+id/vuImageView"
+            android:layout_weight="0.9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/vu" />
+
+    </LinearLayout>
+
+</RelativeLayout>
