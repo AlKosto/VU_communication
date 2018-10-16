@@ -86,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 String deviceToken = FirebaseInstanceId.getInstance().getToken();
 
                                 String currentUserID= mAuth.getCurrentUser().getUid();
-                                RootRef.child("User").child(currentUserID).setValue("");
 
                                 RootRef.child("Users").child(currentUserID).child("device_token")
                                         .setValue(deviceToken);

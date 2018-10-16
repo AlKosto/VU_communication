@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity
 
         mAuth= FirebaseAuth.getInstance();
         currentUser =mAuth.getCurrentUser();
-        currentUserId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
         RootRef.keepSynced(true);
     }
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         }
         else{
             veryfiUserExistance();
+
         }
     }
 
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 
                 if(dataSnapshot.child("name").exists())
                 {
-                    Toast.makeText(MainActivity.this, "welcome", Toast.LENGTH_SHORT).show();
+                    currentUserId = mAuth.getCurrentUser().getUid();
                 }
                 else{
                     sendUserToSettngActivity();
@@ -149,15 +149,6 @@ public class MainActivity extends AppCompatActivity
         Intent FindFriendsIntent = new Intent(MainActivity.this, FindFriendsActivity.class);
         startActivity(FindFriendsIntent);
     }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -201,12 +192,7 @@ public class MainActivity extends AppCompatActivity
             RequestNewGroup();
 
         }
-        if(item.getItemId() == R.id.main_profile_option){
-            Intent profileIntent = new Intent( MainActivity.this, ProfileActivity.class);
-            profileIntent.putExtra("visit_user_id", currentUserId);
-            startActivity(profileIntent);
 
-        }
         if(item.getItemId() == R.id.main_find_friends_option){
             sendUserToFindFriensActivity();
 
@@ -275,6 +261,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(webIntent);
 
         } else if (id == R.id.nav_gallery) {
+            Intent universalIntent = new Intent(MainActivity.this, UniversalActevity.class);
+            startActivity(universalIntent);
 
         } else if (id == R.id.nav_slideshow) {
 

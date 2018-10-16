@@ -40,7 +40,9 @@
         <activity
             android:name=".ChatActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".WebPages"></activity>
+        <activity android:name=".WebPages" />
+        <activity android:name=".UniversalActevity"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

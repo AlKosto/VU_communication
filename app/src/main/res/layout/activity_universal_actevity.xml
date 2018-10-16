@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UniversalActevity">
+
+
+    <include
+        android:id="@+id/universal_toolbar"
+        layout="@layout/app_bar_layout"/>
+
+
+    <LinearLayout
+        android:id="@+id/write_post_layout"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/universal_toolbar"
+        android:background="#d7d7d7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/users_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/profile"/>
+
+
+        <EditText
+            android:id="@+id/u_post_input_text"
+            android:background="@drawable/text_background"
+            android:inputType="textMultiLine"
+            android:layout_width="260dp"
+            android:padding="10dp"
+            android:layout_height="wrap_content" />
+
+
+        <ImageButton
+            android:id="@+id/u_post_add_image"
+            android:src="@mipmap/ic_add_image"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/u_post_list"
+        android:layout_below="@+id/write_post_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>
