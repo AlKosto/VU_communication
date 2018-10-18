@@ -12,6 +12,14 @@
         layout="@layout/app_bar_layout"/>
 
 
+
+<LinearLayout
+    android:id="@+id/full"
+    android:orientation="vertical"
+    android:layout_below="@id/universal_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:id="@+id/write_post_layout"
         android:layout_margin="10dp"
@@ -44,10 +52,78 @@
             android:layout_height="40dp" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/write_post_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/u_post_image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/uButtonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:id="@+id/post_text_view_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:background="@drawable/text_background"
+                android:padding="4dp"
+                android:text="Add Text Post"
+                android:textColor="#0e13ff"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/decline_post_text_view_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:background="@drawable/text_background"
+                android:padding="4dp"
+                android:text="Decline Post"
+                android:textColor="#0e13ff"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/add_post_text_view_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:background="@drawable/text_background"
+                android:padding="4dp"
+                android:text="Add Post"
+                android:textColor="#0e13ff"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+    
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/u_post_list"
-        android:layout_below="@+id/write_post_layout"
+        android:id="@+id/user_post_list"
+        android:layout_below="@+id/full"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference RootRef;
-    private String currentUserId;
 
 
     @Override
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity
 
                 if(dataSnapshot.child("name").exists())
                 {
-                    currentUserId = mAuth.getCurrentUser().getUid();
+
                 }
                 else{
                     sendUserToSettngActivity();

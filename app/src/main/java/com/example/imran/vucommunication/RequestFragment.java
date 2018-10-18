@@ -229,18 +229,6 @@ public class RequestFragment extends Fragment {
                                         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                                     }else if(type.equals("sent")){
                                         UserRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
                                             @Override
@@ -324,20 +312,6 @@ public class RequestFragment extends Fragment {
                                             }
                                         });
                                     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                                 }

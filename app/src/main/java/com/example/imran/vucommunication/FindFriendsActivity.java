@@ -66,6 +66,8 @@ public class FindFriendsActivity extends AppCompatActivity {
 
                 Picasso.get().load(model.getImage()).placeholder(R.drawable.profile).into(holder.profileImage);
 
+
+
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
