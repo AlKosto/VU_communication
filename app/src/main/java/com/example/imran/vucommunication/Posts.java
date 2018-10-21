@@ -2,7 +2,7 @@ package com.example.imran.vucommunication;
 
 public class Posts {
 
-    public String date,image,post,time, id;
+    public String date,image,post,time, id , pid;
 
     public Posts() {
     }
@@ -15,6 +15,15 @@ public class Posts {
         this.post = post;
         this.time = time;
         this.id = id;
+        this.pid = pid;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public String getId() {

@@ -25,6 +25,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,7 +52,7 @@ public class UniversalActevity extends AppCompatActivity {
     private Toolbar toolBar;
     private CircleImageView senderUserImage;
     private FirebaseAuth mAuth;
-    private DatabaseReference RootRef, uPostRef,userRef;
+    private DatabaseReference RootRef, uPostRef,userRef, likeRef;
     private StorageReference UserProfileImageRef, uPostImageRef;
     private ImageButton uPostAddImagebtn;
     private static final int GalleryPick =1;
@@ -76,6 +77,7 @@ public class UniversalActevity extends AppCompatActivity {
         uPostImageRef = FirebaseStorage.getInstance().getReference("Post Image");
         uPostRef =FirebaseDatabase.getInstance().getReference().child("Universal Post");
         userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        likeRef = userRef.child("like");
 
         LinearLayoutManager uLinerarLayoutManager= new LinearLayoutManager(this);
         uLinerarLayoutManager.setReverseLayout(true);
@@ -150,9 +152,11 @@ public class UniversalActevity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull final UniPostViewHolder holder, int position, @NonNull final Posts model) {
 
 
+                final String postId = model.getPid();
                 final String list_user_id = model.getId();
                 final String[] userName = new String[1];
                 final String[] userImage = new String[1];
+
 
                 userRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -228,6 +232,7 @@ public class UniversalActevity extends AppCompatActivity {
                             }
                         });
 
+
                         holder.uSendMessageBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -239,6 +244,47 @@ public class UniversalActevity extends AppCompatActivity {
                             }
                         });
 
+
+                        holder.uSendMessageBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+
+                                RootRef.child("Contacts").child(currentUserID).child(list_user_id).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.exists()){
+                                            Intent chatIntent = new Intent(UniversalActevity.this ,ChatActivity.class);
+                                            chatIntent.putExtra("visit_user_id", list_user_id);
+                                            chatIntent.putExtra("visit_user_name", userName[0]);
+                                            chatIntent.putExtra("visit_image", userImage[0]);
+                                            startActivity(chatIntent);
+                                        }
+                                        else {
+                                            Intent profileIntent = new Intent( UniversalActevity.this, ProfileActivity.class);
+                                            profileIntent.putExtra("visit_user_id", list_user_id);
+                                            startActivity(profileIntent);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                            }
+                        });
+
+                        holder.uCommentBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent chatIntent = new Intent(UniversalActevity.this ,CommentActivity.class);
+                                chatIntent.putExtra("post_id", postId);
+                                startActivity(chatIntent);
+                            }
+                        });
 
 
 
@@ -273,11 +319,12 @@ public class UniversalActevity extends AppCompatActivity {
     }
 
 
+
     public static class UniPostViewHolder extends RecyclerView.ViewHolder{
 
         TextView userName, uTextView, uDate,uTime;
         CircleImageView userImage;
-        ImageView uImageView, uSendMessageBtn;
+        ImageView uImageView, uSendMessageBtn, uCommentBtn;
         LinearLayout uPosterLayout;
 
 
@@ -292,15 +339,10 @@ public class UniversalActevity extends AppCompatActivity {
             uTime = itemView.findViewById(R.id.uTime);
             uPosterLayout =itemView.findViewById(R.id.poster_layout);
             uSendMessageBtn = itemView.findViewById(R.id.uSendMessageBtn);
-
-
+            uCommentBtn = itemView.findViewById(R.id.uCommentBtn);
 
         }
     }
-
-
-
-
 
 
 
@@ -416,6 +458,7 @@ public class UniversalActevity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
 
+
                                                         uPostText = uPostInputText.getText().toString();
 
                                                         Calendar callForDate =Calendar.getInstance();
@@ -429,23 +472,26 @@ public class UniversalActevity extends AppCompatActivity {
 
 
 
-                                                            HashMap<String, Object> postInforMap = new HashMap<>();
-                                                            postInforMap.put("id", currentUserID);
-                                                            postInforMap.put("post", uPostText);
-                                                            postInforMap.put("date", currentDate);
-                                                            postInforMap.put("time", currentTime);
+                                                        HashMap<String, Object> postInforMap = new HashMap<>();
+                                                        postInforMap.put("id", currentUserID);
+                                                        postInforMap.put("post", uPostText);
+                                                        postInforMap.put("date", currentDate);
+                                                        postInforMap.put("time", currentTime);
+                                                        postInforMap.put("pid", postKey);
 
-                                                            uPostRef.child(postKey).updateChildren(postInforMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    Toast.makeText(UniversalActevity.this, "Your post is uploaded", Toast.LENGTH_SHORT).show();
-                                                                    uPostLayoutbtn.setVisibility(View.GONE);
-                                                                    uTempShowImage.setVisibility(View.GONE);
-                                                                    uPostInputText.setText("");
+                                                        uPostRef.child(postKey).updateChildren(postInforMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(UniversalActevity.this, "Your post is uploaded", Toast.LENGTH_SHORT).show();
+                                                                uPostLayoutbtn.setVisibility(View.GONE);
+                                                                uTempShowImage.setVisibility(View.GONE);
+                                                                uPostInputText.setText("");
 
+                                                                finish();
+                                                                startActivity(getIntent());
 
-                                                                }
-                                                            });
+                                                            }
+                                                        });
 
                                                         finish();
                                                         startActivity(getIntent());
@@ -504,6 +550,7 @@ public class UniversalActevity extends AppCompatActivity {
         postInforMap.put("date", currentDate);
         postInforMap.put("time", currentTime);
         postInforMap.put("image", "");
+        postInforMap.put("pid", postKey);
 
         uPostRef.child(postKey).updateChildren(postInforMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

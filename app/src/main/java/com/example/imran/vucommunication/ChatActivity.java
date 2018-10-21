@@ -70,8 +70,6 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
-
-
         InitializeControllers();
 
         userName.setText(messageReceiverName);
