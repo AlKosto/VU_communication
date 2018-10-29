@@ -43,20 +43,21 @@
 
              <TextView
                  android:id="@+id/user_profile_name"
-                 android:layout_width="220dp"
+                 android:layout_width="170dp"
                  android:layout_height="wrap_content"
                  android:text="user name"
                  android:textAlignment="textStart"
                  android:textSize="18sp"
-                 android:textStyle="bold"/>
+                 android:textStyle="bold"
+                 android:gravity="start" />
 
              <ImageView
                  android:id="@+id/user_onlne_status"
-                 android:layout_marginTop="6dp"
                  android:layout_width="15dp"
                  android:layout_height="15dp"
+                 android:layout_marginTop="6dp"
                  android:src="@drawable/online"
-                 android:visibility="invisible"/>
+                 android:visibility="invisible" />
 
          </LinearLayout>
 

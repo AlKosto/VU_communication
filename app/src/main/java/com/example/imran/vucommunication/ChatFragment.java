@@ -93,6 +93,7 @@ public class ChatFragment extends Fragment {
                                         Picasso.get().load(userImage[0]).into(holder.profileImage);
                                     }
 
+
                                     final String profieStatus= dataSnapshot.child("status").getValue().toString();
                                     final String pofileName= dataSnapshot.child("name").getValue().toString();
                                     final String UStudentId= dataSnapshot.child("studentid").getValue().toString();
@@ -101,12 +102,33 @@ public class ChatFragment extends Fragment {
 
 
 
-                                    holder.StudentProgram.setText("date "+"Time");
-                                    holder.indicator.setText("Last Seen: ");
                                     holder.userStudentBatch.setText(UserBatch);
                                     holder.userSId.setText(UStudentId);
                                     holder.userName.setText(pofileName);
                                     holder.userStatus.setText(profieStatus);
+
+
+                                    if(dataSnapshot.child("userState").hasChild("state")){
+
+                                        String state= dataSnapshot.child("userState").child("state").getValue().toString();
+                                        String date= dataSnapshot.child("userState").child("date").getValue().toString();
+                                        String time= dataSnapshot.child("userState").child("time").getValue().toString();
+
+                                        if(state.equals("online")){
+                                            holder.indicator.setText("Active now");
+                                            holder.StudentProgram.setText("");
+                                        }
+                                        else if(state.equals("offline")){
+                                            holder.indicator.setText("Last seen:");
+                                            holder.StudentProgram.setText( date+"  "+time);
+                                        }
+
+                                    }else {
+
+                                        holder.indicator.setText("");
+                                        holder.StudentProgram.setText("offline");
+                                    }
+
 
 
 

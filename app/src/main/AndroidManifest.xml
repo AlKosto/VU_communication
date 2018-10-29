@@ -60,9 +60,10 @@
             android:name=".UniversalActevity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CommentActivity"
-            android:screenOrientation="portrait"
-            ></activity>
+        <activity
+            android:name=".CommentActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".EventActivity"></activity>
     </application>
 
 </manifest>

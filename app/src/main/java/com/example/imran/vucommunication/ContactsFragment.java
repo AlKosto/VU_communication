@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -80,36 +81,62 @@ public class ContactsFragment extends Fragment {
                 UserRef.child(userID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.hasChild("image")){
-                            String userImage= dataSnapshot.child("image").getValue().toString();
-                            String profieStatus= dataSnapshot.child("status").getValue().toString();
-                            String pofileName= dataSnapshot.child("name").getValue().toString();
-                            String UStudentId= dataSnapshot.child("studentid").getValue().toString();
-                            String UserBatch= dataSnapshot.child("studentBatch").getValue().toString();
-                            String UStudentProgram = dataSnapshot.child("programName").getValue().toString();
+
+                        if(dataSnapshot.exists()){
 
 
-                            holder.StudentProgram.setText(UStudentProgram);
-                            holder.userStudentBatch.setText(UserBatch);
-                            holder.userName.setText(pofileName);
-                            holder.userStatus.setText(profieStatus);
-                            holder.userSId.setText(UStudentId);
-                            Picasso.get().load(userImage).into(holder.profileImage);
+                            if(dataSnapshot.child("userState").hasChild("state")){
 
-                        }else {
-                            String profieStatus= dataSnapshot.child("status").getValue().toString();
-                            String pofileName= dataSnapshot.child("name").getValue().toString();
-                            String UStudentId= dataSnapshot.child("studentid").getValue().toString();
-                            String UserBatch= dataSnapshot.child("studentBatch").getValue().toString();
-                            String UStudentProgram = dataSnapshot.child("programName").getValue().toString();
+                                String state= dataSnapshot.child("userState").child("state").getValue().toString();
+                                String date= dataSnapshot.child("userState").child("date").getValue().toString();
+                                String time= dataSnapshot.child("userState").child("time").getValue().toString();
+
+                                if(state.equals("online")){
+                                    holder.onlineIcon.setVisibility(View.VISIBLE);
+                                }
+                                else if(state.equals("offline")){
+                                    holder.onlineIcon.setVisibility(View.INVISIBLE);
+                                }
+
+                            }else {
+                                holder.onlineIcon.setVisibility(View.INVISIBLE);
+                            }
 
 
-                            holder.StudentProgram.setText(UStudentProgram);
-                            holder.userStudentBatch.setText(UserBatch);
-                            holder.userSId.setText(UStudentId);
-                            holder.userName.setText(pofileName);
-                            holder.userStatus.setText(profieStatus);
+
+
+                            if(dataSnapshot.hasChild("image")){
+                                String userImage= dataSnapshot.child("image").getValue().toString();
+                                String profieStatus= dataSnapshot.child("status").getValue().toString();
+                                String pofileName= dataSnapshot.child("name").getValue().toString();
+                                String UStudentId= dataSnapshot.child("studentid").getValue().toString();
+                                String UserBatch= dataSnapshot.child("studentBatch").getValue().toString();
+                                String UStudentProgram = dataSnapshot.child("programName").getValue().toString();
+
+
+                                holder.StudentProgram.setText(UStudentProgram);
+                                holder.userStudentBatch.setText(UserBatch);
+                                holder.userName.setText(pofileName);
+                                holder.userStatus.setText(profieStatus);
+                                holder.userSId.setText(UStudentId);
+                                Picasso.get().load(userImage).into(holder.profileImage);
+
+                            }else {
+                                String profieStatus= dataSnapshot.child("status").getValue().toString();
+                                String pofileName= dataSnapshot.child("name").getValue().toString();
+                                String UStudentId= dataSnapshot.child("studentid").getValue().toString();
+                                String UserBatch= dataSnapshot.child("studentBatch").getValue().toString();
+                                String UStudentProgram = dataSnapshot.child("programName").getValue().toString();
+
+
+                                holder.StudentProgram.setText(UStudentProgram);
+                                holder.userStudentBatch.setText(UserBatch);
+                                holder.userSId.setText(UStudentId);
+                                holder.userName.setText(pofileName);
+                                holder.userStatus.setText(profieStatus);
+                            }
                         }
+
                     }
 
                     @Override
@@ -139,6 +166,7 @@ public class ContactsFragment extends Fragment {
 
         TextView userName, userStatus ,userSId, userStudentBatch, StudentProgram;
         CircleImageView profileImage;
+        ImageView onlineIcon;
 
 
         public ContactsViewHolder(@NonNull View itemView) {
@@ -151,6 +179,7 @@ public class ContactsFragment extends Fragment {
             profileImage= itemView.findViewById(R.id.users_profile_image);
             userSId = itemView.findViewById(R.id.student_id);
             userStudentBatch = itemView.findViewById(R.id.student_batch);
+            onlineIcon =(ImageView) itemView.findViewById(R.id.user_onlne_status);
 
         }
     }
