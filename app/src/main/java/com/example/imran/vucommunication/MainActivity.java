@@ -209,10 +209,10 @@ public class MainActivity extends AppCompatActivity
         super.onOptionsItemSelected(item);
 
         if(item.getItemId() == R.id.main_logout_option){
-
-
+            updateUserStatus("offline");
             mAuth.signOut();
             sendUserToLoginActivity();
+
         }
         if(item.getItemId() == R.id.main_settings_option){
             sendUserToSettngActivity();
@@ -295,6 +295,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(universalIntent);
 
         } else if (id == R.id.nav_slideshow) {
+            Intent eventIntent = new Intent(MainActivity.this, EventActivity.class);
+            startActivity(eventIntent);
 
         } else if (id == R.id.nav_manage) {
 

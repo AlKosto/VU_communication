@@ -19,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,11 +56,11 @@ public class CommentActivity extends AppCompatActivity {
         RootRef = FirebaseDatabase.getInstance().getReference();
         uCommentRef= FirebaseDatabase.getInstance().getReference().child("Universal Post").child(postId).child("Comment");
 
+
         initializefield();
         showProfileImage();
 
         LinearLayoutManager uLinerarLayoutManager= new LinearLayoutManager(this);
-        uLinerarLayoutManager.setReverseLayout(true);
         uLinerarLayoutManager.setStackFromEnd(true);
         commentList =(RecyclerView)findViewById(R.id.comment_list);
         commentList.setLayoutManager(uLinerarLayoutManager);
@@ -89,19 +90,19 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull final CommentPostViewHolder holder, int position, @NonNull final Comments model) {
 
+
+
                 uCommentRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists() && dataSnapshot.hasChild("image")){
+                        if(dataSnapshot.exists()){
+
+                            Picasso.get().load(model.getImage()).placeholder(R.drawable.profile).into(holder.commentProfileImage);
+                            holder.name.setText(model.getName());
                             holder.dateView.setText(model.getDate());
                             holder.timeView.setText(model.getTime());
                             holder.commentText.setText(model.getComment());
-                            Picasso.get().load(model.getImage()).into(holder.commentProfileImage);
-                        }
-                        else {
-                            holder.dateView.setText(model.getDate());
-                            holder.timeView.setText(model.getTime());
-                            holder.commentText.setText(model.getComment());
+
                         }
                     }
 

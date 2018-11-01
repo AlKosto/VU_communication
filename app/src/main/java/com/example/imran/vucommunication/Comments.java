@@ -2,18 +2,29 @@ package com.example.imran.vucommunication;
 
 public class Comments {
 
-    String comment, date,time, id, cid, image;
+    String comment, date,time, id, cid, image,name;
 
     public Comments() {
     }
 
-    public Comments(String comment, String date, String time, String id, String cid, String image) {
+
+    public Comments(String comment, String date, String time, String id, String cid , String name, String image) {
         this.comment = comment;
         this.cid = cid;
         this.image = image;
         this.date = date;
         this.time = time;
         this.id = id;
+        this.name = name;
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCid() {
