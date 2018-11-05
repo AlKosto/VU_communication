@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -90,9 +92,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 RootRef.child("Users").child(currentUserID).child("device_token")
                                         .setValue(deviceToken);
 
-                                sendUserToMainActivity();
-                                Toast.makeText(RegisterActivity.this, "Account Create Successful... ", Toast.LENGTH_SHORT).show();
                                 lodingBar.dismiss();
+                                sendEmailVerification();
+
                             }
                             else {
                                 String message = task.getException().toString();
@@ -125,6 +127,27 @@ public class RegisterActivity extends AppCompatActivity {
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
+    }
+
+
+    private void sendEmailVerification(){
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+        if(firebaseUser!=null){
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(RegisterActivity.this, "Successfully Registered, verification mail sent!", Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        finish();
+                        sendUserToLoginActivity();
+                    }else {
+                        Toast.makeText(RegisterActivity.this, "Verification Email has't been sent!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
 }

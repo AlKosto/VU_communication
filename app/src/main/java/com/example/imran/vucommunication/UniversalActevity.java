@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -513,6 +514,20 @@ public class UniversalActevity extends AppCompatActivity {
 
                             });
 
+                            uDeclinebtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    uPostImageRef.child(postKey + ".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            uPostLayoutbtn.setVisibility(View.GONE);
+                                            uPostInputText.setText("");
+                                            uTempShowImage.setVisibility(View.GONE);
+                                            Toast.makeText(UniversalActevity.this, "Decline Complete", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
 
                         }
                         else {

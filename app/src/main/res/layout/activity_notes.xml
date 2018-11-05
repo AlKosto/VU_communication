@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotesActivity">
+
+
+    <include
+        android:id="@+id/notes_bar_layout"
+        layout="@layout/app_bar_layout"
+        />
+
+
+    <ScrollView
+        android:id="@+id/post_notes_layout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="55dp"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:background="@drawable/text_background"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:src="@drawable/profile"
+                    />
+
+                    <EditText
+                        android:hint="Subject Name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="15dp" />
+
+
+            </LinearLayout>
+
+            <EditText
+                android:textAlignment="center"
+                android:hint="Topics.."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:hint="Description about lecture"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+
+
+            <Spinner
+                android:id="@+id/spinner_dept_name"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/sem_sec"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                >
+
+            </Spinner>
+
+
+            <Spinner
+                android:id="@+id/spinner_program_name"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/spinner_dept_name"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
+
+            </Spinner>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/text_background"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:text="Lecture Is"
+                        android:textSize="12dp"
+                        android:textColor="#000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="free"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="paid" />
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/text_background"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pamment Method"
+                        android:textColor="#000"
+                        android:textSize="12dp" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bkash" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DBBL" />
+                    </RadioGroup>
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@drawable/text_background"
+                    android:padding="5dp">
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="phone number"
+                        android:textSize="12dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:hint="price"
+                        />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="6dp"
+        android:src="@drawable/ic_fab_plus"
+        app:pressedTranslationZ="12dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="92dp"
+        android:elevation="6dp"
+        android:src="@drawable/ic_images"
+        android:visibility="invisible"
+        app:backgroundTint="@color/fab_green"
+        app:pressedTranslationZ="12dp" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_pdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="67dp"
+        android:layout_marginBottom="67dp"
+        android:background="@color/fab_green"
+        android:elevation="6dp"
+        android:src="@drawable/ic_images"
+        android:visibility="invisible"
+        app:pressedTranslationZ="12dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_zip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        android:layout_marginBottom="9dp"
+        android:background="@color/fab_green"
+        android:elevation="6dp"
+        android:src="@drawable/ic_images"
+        android:visibility="invisible"
+        app:pressedTranslationZ="12dp" />
+
+
+
+    <TextView
+        android:id="@+id/addImages"
+        android:layout_width="68dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="543dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="69dp" />
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/post_notes_layout"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

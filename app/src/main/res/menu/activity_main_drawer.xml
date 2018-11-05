@@ -11,8 +11,8 @@
             android:title="Gallery" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:icon="@drawable/ic_time_picker"
+            android:title="Add And show Events" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

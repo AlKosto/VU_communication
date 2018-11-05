@@ -63,7 +63,12 @@
         <activity
             android:name=".CommentActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".EventActivity"></activity>
+        <activity
+            android:name=".EventActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".NotesActivity" />
+        <activity android:name=".multipleSelectActivity"></activity>
     </application>
 
 </manifest>

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#006257</color>
     <color name="colorPrimaryDark">#005048</color>
     <color name="colorAccent">#af7676</color>
+    <color name="fab_delete">#f92222</color>
+    <color name="fab_green">#00df3b</color>
 </resources>

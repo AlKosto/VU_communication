@@ -101,9 +101,8 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            sendUserToMainActivity();
-                                            Toast.makeText(LoginActivity.this, "Loged In Successful...", Toast.LENGTH_SHORT).show();
                                             lodingBar.dismiss();
+                                            checkEmaiVerification();
                                         }
                                     }
                                 });
@@ -121,6 +120,27 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
+    private void checkEmaiVerification(){
+
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+        Boolean emailflag = firebaseUser.isEmailVerified();
+
+        if(emailflag){
+
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            Toast.makeText(LoginActivity.this, "Loged In Successful...", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else {
+
+            Toast.makeText(this, "Email is not verified so verify..", Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
+        }
+    }
 
     private void InitializeFields() {
         LoginButton = (Button) findViewById(R.id.login_button);

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:layout_alignParentEnd="true"
+        android:background="#ffd4d4"
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:id="@+id/poster_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/event_poster_image"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/profile" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/event_poster_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/event_poster_name"
+                        android:layout_width="240dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#020981"
+                        android:gravity="start"
+                        android:text="user name"
+                        android:textAlignment="textStart"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/user_onlne_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/online"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/event_title"
+                    android:layout_below="@+id/event_poster_name_layout"
+                    android:textSize="12dp"
+                    android:text="Event Title"
+                    android:textColor="#630202"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold|italic"
+                    />
+
+                <LinearLayout
+                    android:layout_below="@+id/event_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/uDate"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="12-14-2018"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/uTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12-10 am "
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+
+
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="120dp"
+                    android:elevation="6dp"
+                    android:backgroundTint="@color/fab_delete"
+                    android:src="@drawable/ic_delete_black_24dp"
+                    android:visibility="invisible" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="70dp"
+                    android:elevation="6dp"
+                    app:backgroundTint="#00df04"
+                    android:src="@drawable/ic_add_alarm_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:visibility="invisible"/>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="2dp"
+                    android:elevation="6dp"
+                    android:backgroundTint="#2b2601a7"
+                    android:src="@drawable/ic_settings_applications_black_24dp"
+                    android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="okkkk" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/event_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:background="@drawable/text_background"
+                android:visibility="gone" />
+
+
+            <ImageView
+                android:id="@+id/event_image"
+                android:layout_below="@+id/event_description_text"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"/>
+
+          </RelativeLayout>
+
+        <TextView
+            android:id="@+id/event_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:text="Event At: 12-10-2028   10:25"/>
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

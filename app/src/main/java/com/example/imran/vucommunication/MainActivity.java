@@ -299,6 +299,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(eventIntent);
 
         } else if (id == R.id.nav_manage) {
+            Intent notesIntent = new Intent(MainActivity.this, NotesActivity.class);
+            startActivity(notesIntent);
 
         } else if (id == R.id.nav_share) {
 
@@ -337,7 +339,16 @@ public class MainActivity extends AppCompatActivity
                 .updateChildren(onlineStateMap);
     }
 
+
+
+
 }
+
+
+
+
+
+
 
 
 

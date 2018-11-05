@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,18 +20,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.hbb20.CountryCodePicker;
 
 import java.util.concurrent.TimeUnit;
 
 public class PhoneLoginActivity extends AppCompatActivity {
 
     private Button sendVerificationCodeButton, verifyButton;
-    private EditText InputPhoneNumber, InputVerificationCode;
+    private EditText  InputVerificationCode, phoneText;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private FirebaseAuth mAuth;
     private ProgressDialog lodingBar;
+    RelativeLayout phoneAuth;
+    String phoneNumber;
+    CountryCodePicker ccp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,11 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
         sendVerificationCodeButton =(Button)findViewById(R.id.send_ver_code_button);
         verifyButton =(Button)findViewById(R.id.verify_button);
-        InputPhoneNumber =(EditText) findViewById(R.id.phone_number_input);
+        phoneAuth = (RelativeLayout)findViewById(R.id.phoneAuth);
+        phoneText = (EditText) findViewById(R.id.phoneText);
+        ccp = (CountryCodePicker) findViewById(R.id.ccp);
+        ccp.registerCarrierNumberEditText(phoneText);
+
         InputVerificationCode =(EditText) findViewById(R.id.verification_code_input);
         mAuth = FirebaseAuth.getInstance();
         lodingBar= new ProgressDialog(this);
@@ -51,7 +60,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                String phoneNumber = InputPhoneNumber.getText().toString();
+                phoneNumber = ccp.getFullNumberWithPlus();
 
                 if(TextUtils.isEmpty(phoneNumber)){
                     Toast.makeText(PhoneLoginActivity.this, "Enter Your Phone Number First", Toast.LENGTH_SHORT).show();
@@ -82,7 +91,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendVerificationCodeButton.setVisibility(View.INVISIBLE);
-                InputPhoneNumber.setVisibility(View.INVISIBLE);
+                phoneAuth.setVisibility(View.INVISIBLE);
 
                 String verifcationCode = InputVerificationCode.getText().toString();
 
@@ -120,7 +129,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
                 Toast.makeText(PhoneLoginActivity.this, "Invalid Phone Number, Please enter correct phone number with country code..", Toast.LENGTH_LONG).show();
 
                 sendVerificationCodeButton.setVisibility(View.VISIBLE);
-                InputPhoneNumber.setVisibility(View.VISIBLE);
+                phoneAuth.setVisibility(View.VISIBLE);
 
                 verifyButton.setVisibility(View.INVISIBLE);
                 InputVerificationCode.setVisibility(View.INVISIBLE);
@@ -139,7 +148,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
 
                 sendVerificationCodeButton.setVisibility(View.INVISIBLE);
-                InputPhoneNumber.setVisibility(View.INVISIBLE);
+                phoneAuth.setVisibility(View.INVISIBLE);
 
                 verifyButton.setVisibility(View.VISIBLE);
                 InputVerificationCode.setVisibility(View.VISIBLE);
