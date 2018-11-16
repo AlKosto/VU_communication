@@ -1,9 +1,12 @@
 package com.example.imran.vucommunication;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +16,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -30,6 +37,8 @@ public class multipleSelectActivity extends AppCompatActivity {
     private List<String> fileDoneList;
     private UploadListAdater uploadListAdater;
     private StorageReference mStorage;
+    private DatabaseReference NotesRef;
+    String notesKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,8 @@ public class multipleSelectActivity extends AppCompatActivity {
 
         mSelectBtn = (TextView) findViewById(R.id.select_btn);
         mUploadList = (RecyclerView) findViewById(R.id.upload_list);
-
+        notesKey = getIntent().getExtras().get("notesKey").toString();
+        NotesRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
         fileNameList = new ArrayList<>();
         fileDoneList = new ArrayList<>();
@@ -66,6 +76,7 @@ public class multipleSelectActivity extends AppCompatActivity {
         });
 
     }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -84,18 +95,23 @@ public class multipleSelectActivity extends AppCompatActivity {
                     fileDoneList.add("uploading");
                     uploadListAdater.notifyDataSetChanged();
 
-                    StorageReference fileToUpload = mStorage.child("Images").child(fileName);
+                    StorageReference fileToUpload = mStorage.child("notes").child("images").child(fileName);
 
                     final int finalI = i;
-                    fileToUpload.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    fileToUpload.putFile(fileUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+
+                            final String downloadUrl = task.getResult().getDownloadUrl().toString();
+
+                            NotesRef.child(notesKey).child("images").child(String.valueOf(finalI)).setValue(downloadUrl);
+
 
                             fileDoneList.remove(finalI);
                             fileDoneList.add(finalI, "done");
 
                             uploadListAdater.notifyDataSetChanged();
-
                         }
                     });
                 }

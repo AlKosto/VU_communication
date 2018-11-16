@@ -221,25 +221,25 @@ public class SettingActivity extends AppCompatActivity implements AdapterView.On
         if(TextUtils.isEmpty(setUserName)){
             Toast.makeText(this, "Enter Your Name", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(userStatus)){
+        else if(TextUtils.isEmpty(userStatus)){
             Toast.makeText(this, "Enter Your Status", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(studentID)){
+        else if(TextUtils.isEmpty(studentID)){
             Toast.makeText(this, "Enter Your Student ID", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(studentSession)){
+        else if(TextUtils.isEmpty(studentSession)){
             Toast.makeText(this, "Enter Your Session", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(studentBatch)){
+        else if(TextUtils.isEmpty(studentBatch)){
             Toast.makeText(this, "Enter Your Batch", Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(studentSection)){
+        else if(TextUtils.isEmpty(studentSection)){
             Toast.makeText(this, "Enter Your Section", Toast.LENGTH_SHORT).show();
         }
-        if(dept_name.equals("Select Your Department")){
+        else if(dept_name.equals("Select Your Department")){
             Toast.makeText(this, "Select One From Departments", Toast.LENGTH_SHORT).show();
         }
-        if(program_name.equals("Select Your Program")){
+        else if(program_name.equals("Select Your Program")){
             Toast.makeText(this, "Select Yor Program name", Toast.LENGTH_SHORT).show();
         }
         else{
