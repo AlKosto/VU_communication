@@ -36,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private String messageReceiverID , messageReceiverName, messageReceiverImage ,messageSenderID;
+    private String messageReceiverID , messageReceiverName, messageReceiverImage ,messageSenderID,mText;
 
     private TextView userName, userLastSeen;
     private CircleImageView userImage;
@@ -68,6 +68,7 @@ public class ChatActivity extends AppCompatActivity {
         messageReceiverID = getIntent().getExtras().get("visit_user_id").toString();
         messageReceiverName = getIntent().getExtras().get("visit_user_name").toString();
         messageReceiverImage = getIntent().getExtras().get("visit_image").toString();
+        mText=getIntent().getExtras().get("message_text").toString();
 
 
 
@@ -76,6 +77,13 @@ public class ChatActivity extends AppCompatActivity {
         userName.setText(messageReceiverName);
         Picasso.get().load(messageReceiverImage).placeholder(R.drawable.profile).into(userImage);
 
+        if(mText.equals("")){
+            MessageInputText.setText("");
+        }else{
+            MessageInputText.setText(mText);
+        }
+
+        DisplayLastSeen();
 
         SendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +92,11 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     private void InitializeControllers() {
-
-
-
 
         chatToolbar =(Toolbar) findViewById(R.id.chat_toolbar);
         setSupportActionBar(chatToolbar);
@@ -199,6 +206,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void SendMessage(){
         String messageText = MessageInputText.getText().toString();
+
         
         if(TextUtils.isEmpty(messageText)){
             Toast.makeText(this, "First write your message", Toast.LENGTH_SHORT).show();
@@ -227,6 +235,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task task) {
                     if(task.isSuccessful()){
                         Toast.makeText(ChatActivity.this, "Message Sent Successfully...", Toast.LENGTH_SHORT).show();
+
                     }else {
                         Toast.makeText(ChatActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }

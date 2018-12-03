@@ -68,7 +68,8 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".NotesActivity" />
-        <activity android:name=".multipleSelectActivity"></activity>
+        <activity android:name=".multipleSelectActivity" />
+        <activity android:name=".LicturePermission" />
     </application>
 
 </manifest>

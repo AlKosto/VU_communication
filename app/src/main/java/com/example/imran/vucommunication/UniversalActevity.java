@@ -234,16 +234,16 @@ public class UniversalActevity extends AppCompatActivity {
                         });
 
 
-                        holder.uSendMessageBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent chatIntent = new Intent(UniversalActevity.this ,ChatActivity.class);
-                                chatIntent.putExtra("visit_user_id", list_user_id);
-                                chatIntent.putExtra("visit_user_name", userName[0]);
-                                chatIntent.putExtra("visit_image", userImage[0]);
-                                startActivity(chatIntent);
-                            }
-                        });
+//                        holder.uSendMessageBtn.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent chatIntent = new Intent(UniversalActevity.this ,ChatActivity.class);
+//                                chatIntent.putExtra("visit_user_id", list_user_id);
+//                                chatIntent.putExtra("visit_user_name", userName[0]);
+//                                chatIntent.putExtra("visit_image", userImage[0]);
+//                                startActivity(chatIntent);
+//                            }
+//                        });
 
 
                         holder.uSendMessageBtn.setOnClickListener(new View.OnClickListener() {
@@ -259,6 +259,7 @@ public class UniversalActevity extends AppCompatActivity {
                                             chatIntent.putExtra("visit_user_id", list_user_id);
                                             chatIntent.putExtra("visit_user_name", userName[0]);
                                             chatIntent.putExtra("visit_image", userImage[0]);
+                                            chatIntent.putExtra("message_text","");
                                             startActivity(chatIntent);
                                         }
                                         else {
@@ -283,10 +284,10 @@ public class UniversalActevity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent chatIntent = new Intent(UniversalActevity.this ,CommentActivity.class);
                                 chatIntent.putExtra("post_id", postId);
+                                chatIntent.putExtra("check","uni");
                                 startActivity(chatIntent);
                             }
                         });
-
 
 
                     }

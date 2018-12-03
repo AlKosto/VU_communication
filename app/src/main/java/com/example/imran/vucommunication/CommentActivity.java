@@ -36,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentActivity extends AppCompatActivity {
 
     private EditText inputComment;
-    private String postId;
+    private String postId,check;
     private RecyclerView commentList;
     private ImageButton postCommentBtn;
     private DatabaseReference RootRef, uCommentRef;
@@ -51,10 +51,17 @@ public class CommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment);
 
         postId = getIntent().getExtras().get("post_id").toString();
+        check=getIntent().getExtras().get("check").toString();
+
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         RootRef = FirebaseDatabase.getInstance().getReference();
-        uCommentRef= FirebaseDatabase.getInstance().getReference().child("Universal Post").child(postId).child("Comment");
+
+        if(check.equals("uni")){
+            uCommentRef= FirebaseDatabase.getInstance().getReference().child("Universal Post").child(postId).child("Comment");
+        }else  if(check.equals("note")){
+            uCommentRef= FirebaseDatabase.getInstance().getReference().child("Notes").child(postId).child("Comment");
+        }
 
 
         initializefield();

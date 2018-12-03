@@ -121,24 +121,3 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

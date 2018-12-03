@@ -1,6 +1,8 @@
 package com.example.imran.vucommunication;
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -11,13 +13,22 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.DownloadListener;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
@@ -25,11 +36,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +58,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -62,13 +77,15 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
     private DatabaseReference RootRef ,NotesRef;
     private String currentUserID  ,currentDate, currentTime;
     private EditText subName, subTopic, subDescription, acPhoneNo, bdPrice;
-    String notesKey;
+    private RecyclerView notesList;
+    private WebView dWebView;
+    String notesKey,finalNamme;
     String fileName;
+    int chekper=0;
     Uri pdfUri;
     ProgressDialog progressDialog;
 
-    Boolean freeRadioBtnT;
-    Boolean paidRadioBtnT;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +109,16 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+
+
+
+        LinearLayoutManager uLinerarLayoutManager= new LinearLayoutManager(this);
+        uLinerarLayoutManager.setReverseLayout(true);
+        uLinerarLayoutManager.setStackFromEnd(true);
+        notesList =(RecyclerView)findViewById(R.id.notes_list);
+        notesList.setLayoutManager(uLinerarLayoutManager);
+
+
 
         fab_plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +237,384 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        FirebaseRecyclerOptions<Notes> options =
+                new FirebaseRecyclerOptions.Builder<Notes>()
+                        .setQuery(NotesRef, Notes.class)
+                        .build();
+
+
+        FirebaseRecyclerAdapter<Notes, UniNotesViewHolder> adapter = new FirebaseRecyclerAdapter<Notes, UniNotesViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final UniNotesViewHolder holder, int position, @NonNull final Notes model) {
+
+
+                final String list_user_id = model.getId();
+                final String[] userImage = new String[1];
+                final String nkey=model.getNid();
+                final String freeOrPaid = model.getPaid_or_free();
+                final String[] userName = new String[1];
+//                holder.subName.setText(model.getSub_name());
+//                holder.topicName.setText(model.getTopic());
+//                holder.pTime.setText(model.getCurrentTime());
+//                holder.pDate.setText(model.getCurrentDate());
+
+
+                RootRef.child("Users").child(list_user_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.exists()&&dataSnapshot.hasChild("image")){
+
+                            userImage[0] = dataSnapshot.child("image").getValue().toString();
+
+                            userName[0] = dataSnapshot.child("name").getValue().toString();
+                            Picasso.get().load(userImage[0]).placeholder(R.drawable.profile).into(holder.notesProviderImage);
+                        }else{
+
+                        }
+
+                            holder.subDescription.setText(model.getSub_description());
+                            holder.subName.setText(model.getSub_name());
+                            holder.topicName.setText(model.getTopic());
+                            holder.pTime.setText(model.getCurrentTime());
+                            holder.pDate.setText(model.getCurrentDate());
+                            holder.dataTyoe.setText(model.getFtype());
+
+                            if(freeOrPaid.equals("free")){
+                                holder.paidPriceFree.setText("Free");
+                                holder.buyInfoLayout.setVisibility(View.GONE);
+                                holder.buyBtn.setVisibility(View.GONE);
+
+
+                                holder.dataTyoe.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+
+                                        dWebView.loadUrl(model.getFile());
+                                        dWebView.setDownloadListener(new DownloadListener() {
+                                            @Override
+                                            public void onDownloadStart(String url, String userAgent,
+                                                                        String contentDisposition, String mimetype,
+                                                                        long contentLength) {
+                                                DownloadManager.Request vuRequest = new DownloadManager.Request(Uri.parse(url));
+                                                vuRequest.allowScanningByMediaScanner();
+                                                vuRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                                                DownloadManager vuManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                                vuManager.enqueue(vuRequest);
+
+                                                Toast.makeText(NotesActivity.this, "File is downloading", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
+
+
+
+
+                            }
+                            else if(freeOrPaid.equals("paid")) {
+
+                                if(list_user_id.equals(currentUserID)){
+
+                                    holder.paidPriceFree.setText("+ People");
+
+                                    holder.buyBtn.setVisibility(View.GONE);
+                                    holder.buyInfoLayout.setVisibility(View.GONE);
+                                    holder.paidPriceFree.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            Intent I=new Intent(NotesActivity.this,LicturePermission.class);
+                                            I.putExtra("nid",model.getNid());
+                                            startActivity(I);
+
+                                        }
+                                    });
+                                }else {
+
+                                    holder.paidPriceFree.setText("Price:"+model.getPrice());
+                                    holder.buyInfoLayout.setVisibility(View.GONE);
+                                    holder.buyBtn.setVisibility(View.VISIBLE);
+                                }
+
+
+
+
+                                holder.buyBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        holder.buyBtn.setVisibility(View.GONE);
+                                        holder.buyInfoLayout.setVisibility(View.VISIBLE);
+                                        holder.paymenMethod.setText("You have to paid by "+model.getPayment_method());
+                                        holder.paymentACNumber.setText(model.getPayment_method()+" account no: "+model.ac_phone_number);
+
+                                        holder.buyCancel.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                holder.buyInfoLayout.setVisibility(View.GONE);
+                                                holder.buyBtn.setVisibility(View.VISIBLE);
+                                            }
+                                        });
+
+
+
+                                        holder.buyConfirmbtn.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                String messageText = holder.TxnId.getText().toString();
+
+                                                if(TextUtils.isEmpty(messageText)){
+                                                    Toast.makeText(NotesActivity.this, "Please Enter TxnId", Toast.LENGTH_SHORT).show();
+                                                }else {
+
+                                                    final String messageTextt="I am send balance for your lecture.\n" +
+                                                            "Subject name: "+model.getSub_name()+"\n"
+                                                            +"Topic is:"+model.getTopic()
+                                                            +"\nBalance TxnId is: "+messageText
+                                                            +"\nMy Id is: "+currentUserID
+                                                            +"\nNow add this id to  your lecture for visible it to me.";
+
+
+
+                                                    RootRef.child("Contacts").child(currentUserID).child(list_user_id).addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            if(dataSnapshot.exists()){
+                                                                Intent chatIntent = new Intent(NotesActivity.this ,ChatActivity.class);
+                                                                chatIntent.putExtra("visit_user_id", list_user_id);
+                                                                chatIntent.putExtra("visit_user_name", userName[0]);
+                                                                chatIntent.putExtra("visit_image", userImage[0]);
+                                                                chatIntent.putExtra("message_text",messageTextt);
+
+                                                                startActivity(chatIntent);
+                                                            }
+                                                            else {
+                                                                Toast.makeText(NotesActivity.this, "After Accepted you chat request have to try again", Toast.LENGTH_LONG).show();
+                                                                Intent profileIntent = new Intent( NotesActivity.this, ProfileActivity.class);
+                                                                profileIntent.putExtra("visit_user_id", list_user_id);
+                                                                startActivity(profileIntent);
+                                                            }
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+
+
+                                                }
+
+
+
+
+
+
+
+
+                                            }
+                                        });
+
+                                    }
+                                });
+
+
+                                holder.dataTyoe.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        NotesRef.child(model.getNid()).child("p_user").addChildEventListener(new ChildEventListener() {
+                                            @Override
+                                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+
+                                                String  CC= dataSnapshot.getValue().toString();
+
+
+
+                                                if(CC.equals(currentUserID)){
+                                                    dWebView.loadUrl(model.getFile());
+                                                    dWebView.setDownloadListener(new DownloadListener() {@Override
+                                                        public void onDownloadStart(String url, String userAgent,
+                                                                                    String contentDisposition, String mimetype,
+                                                                                    long contentLength) {
+                                                            DownloadManager.Request vuRequest = new DownloadManager.Request(Uri.parse(url));
+                                                            vuRequest.allowScanningByMediaScanner();
+                                                            vuRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                                                            DownloadManager vuManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                                                            vuManager.enqueue(vuRequest);
+
+                                                            Toast.makeText(NotesActivity.this, "File is downloading", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                }
+                                                else {
+                                                    chekper=1;
+                                                 }
+
+                                            }
+
+                                            @Override
+                                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                            }
+
+                                            @Override
+                                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
+                                        if(chekper==1){
+                                            Toast.makeText(NotesActivity.this, "You Have To Buy It.", Toast.LENGTH_SHORT).show();
+                                        }
+
+
+                                    }
+
+
+                                });
+
+                            }
+
+
+                        holder.nMessageBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                RootRef.child("Contacts").child(currentUserID).child(list_user_id).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.exists()){
+                                            Intent chatIntent = new Intent(NotesActivity.this ,ChatActivity.class);
+                                            chatIntent.putExtra("visit_user_id", list_user_id);
+                                            chatIntent.putExtra("visit_user_name", userName[0]);
+                                            chatIntent.putExtra("visit_image", userImage[0]);
+                                            chatIntent.putExtra("message_text","");
+                                            startActivity(chatIntent);
+                                        }
+                                        else {
+                                            Intent profileIntent = new Intent( NotesActivity.this, ProfileActivity.class);
+                                            profileIntent.putExtra("visit_user_id", list_user_id);
+                                            startActivity(profileIntent);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                            }
+                        });
+
+
+                        holder.nCommentBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent chatIntent = new Intent(NotesActivity.this ,CommentActivity.class);
+                                chatIntent.putExtra("post_id", nkey);
+                                chatIntent.putExtra("check","note");
+                                startActivity(chatIntent);
+                            }
+                        });
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+
+            }
+
+            @NonNull
+            @Override
+            public UniNotesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.notes_single_layout, viewGroup, false);
+
+                UniNotesViewHolder viewHolder = new UniNotesViewHolder(view);
+                return viewHolder;
+            }
+        };
+        notesList.setAdapter(adapter);
+        adapter.startListening();
+
+
+    }
+
+
+
+
+    public class UniNotesViewHolder extends RecyclerView.ViewHolder{
+
+        CircleImageView notesProviderImage;
+        TextView subName,topicName, pDate, pTime, paidPriceFree, subDescription,dataTyoe, paidOrFree, paymenMethod,paymentACNumber;
+        FloatingActionButton currentDate,fab_setting,fab_delete;
+        LinearLayout buyInfoLayout;
+        Button buyBtn, buyCancel,buyConfirmbtn;
+        ImageView nCommentBtn,nMessageBtn;
+        EditText TxnId;
+
+        public UniNotesViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            TxnId=itemView.findViewById(R.id.txnid_input);
+            buyConfirmbtn=itemView.findViewById(R.id.buy_ok_btn);
+            nMessageBtn=itemView.findViewById(R.id.message_btn);
+            nCommentBtn = itemView.findViewById(R.id.comment_btn);
+            paymentACNumber = itemView.findViewById(R.id.payment_ac_no);
+            paymenMethod = itemView.findViewById(R.id.payment_method);
+            buyCancel = itemView.findViewById(R.id.buy_cancel_btn);
+            buyBtn = itemView.findViewById(R.id.buy_btn);
+            buyInfoLayout = itemView.findViewById(R.id.buy_info_layout);
+            dataTyoe= itemView.findViewById(R.id.data_type);
+            subDescription = itemView.findViewById(R.id.description_show);
+            notesProviderImage = itemView.findViewById(R.id.profile_image);
+            subName = itemView.findViewById(R.id.sub_name_show);
+            topicName = itemView.findViewById(R.id.topic_show);
+            pDate = itemView.findViewById(R.id.post_date);
+            pTime = itemView.findViewById(R.id.post_time);
+            paidPriceFree = itemView.findViewById(R.id.paid_price_free);
+
+
+        }
+
+
+
+    }
+
 
 
 
@@ -257,17 +662,31 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("notes");
 
+
+        String extension1 = "";
+
+        int i = fileName.lastIndexOf('.');
+        if (i > 0) {
+            extension1 = fileName.substring(i+1);
+        }
+
+
+        final String finalExtension1 = extension1;
+
+
         storageReference.child("zip").child(fileName).putFile(pdfUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
                         String url = taskSnapshot.getDownloadUrl().toString();
-                        DatabaseReference reference = NotesRef.child(notesKey).child("zip");
+                        DatabaseReference reference = NotesRef.child(notesKey).child("file");
                         reference.setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+
+                                    NotesRef.child(notesKey).child("ftype").setValue(finalExtension1);
                                     Toast.makeText(NotesActivity.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
 
@@ -307,6 +726,16 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("notes");
 
+
+        String extension = "";
+
+        int i = fileName.lastIndexOf('.');
+        if (i > 0) {
+            extension = fileName.substring(i+1);
+        }
+
+
+        final String finalExtension = extension;
         storageReference.child("files").child(fileName).putFile(pdfUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -318,6 +747,9 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+
+                                    NotesRef.child(notesKey).child("ftype").setValue(finalExtension);
+
                                     Toast.makeText(NotesActivity.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
 
                                     progressDialog.dismiss();
@@ -342,7 +774,6 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
-        progressDialog.dismiss();
 
     }
 
@@ -443,6 +874,7 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
         postInforMap.put("currentDate", currentDate);
         postInforMap.put("currentTime" , currentTime);
         postInforMap.put("nid", notesKey);
+        postInforMap.put("ftype", "images");
 
         NotesRef.child(notesKey).updateChildren(postInforMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -463,6 +895,8 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild("image")){
+
+                    finalNamme=dataSnapshot.child("name").getValue().toString();
 
                     String retrivePrfileImage=dataSnapshot.child("image").getValue().toString();
                     Picasso.get().load(retrivePrfileImage).placeholder(R.drawable.profile).into(profileImage);
@@ -506,6 +940,7 @@ public class NotesActivity extends AppCompatActivity implements AdapterView.OnIt
 
         acPhoneNo =(EditText)findViewById(R.id.ac_paid_number);
         bdPrice =(EditText)findViewById(R.id.bd_price);
+        dWebView=(WebView)findViewById(R.id.dWebViw);
     }
 
 

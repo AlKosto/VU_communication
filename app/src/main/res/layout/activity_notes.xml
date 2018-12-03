@@ -34,7 +34,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:visibility="visible">
+            android:visibility="gone">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -307,12 +307,19 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/notes_list"
         android:layout_below="@+id/uuu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </android.support.v7.widget.RecyclerView>
 
+
+    <WebView
+        android:id="@+id/dWebViw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:ignore="WebViewLayout"/>
 
 
 </RelativeLayout>

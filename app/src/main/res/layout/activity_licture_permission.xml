@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LicturePermission">
+
+
+    <EditText
+        android:id="@+id/input_user_id"
+        android:layout_width="match_parent"
+        android:hint="Enter user id"
+        android:layout_height="wrap_content" />
+
+
+
+
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_below="@id/input_user_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Are you want to add?"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/recever_info"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/textview"
+        android:padding="15dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile"
+            android:layout_width="70dp"
+            android:src="@drawable/profile"
+            android:layout_height="70dp" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold|italic"
+            android:text="Al Imran"/>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_below="@+id/recever_info"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_weight=".5"
+            android:id="@+id/check_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_user_id"
+            android:layout_centerHorizontal="true"
+            android:text="Check User" />
+
+        <Button
+            android:layout_weight=".5"
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_user_id"
+            android:layout_centerHorizontal="true"
+            android:text="Done"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

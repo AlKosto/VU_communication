@@ -139,6 +139,7 @@ public class ChatFragment extends Fragment {
                                             chatIntent.putExtra("visit_user_id", usersIDs);
                                             chatIntent.putExtra("visit_user_name", pofileName);
                                             chatIntent.putExtra("visit_image", userImage[0]);
+                                            chatIntent.putExtra("message_text","");
                                             startActivity(chatIntent);
                                         }
                                     });

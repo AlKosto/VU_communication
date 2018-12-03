@@ -189,7 +189,7 @@ public class EventActivity extends AppCompatActivity implements
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        if(dataSnapshot.exists()) {
+                        if(dataSnapshot.exists()&&dataSnapshot.hasChild("image")) {
 
                             userName[0] = dataSnapshot.child("name").getValue().toString();
                             userImage[0] = dataSnapshot.child("image").getValue().toString();
